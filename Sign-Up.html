@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Web Technologies Project</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="icon" type="image/png" href="icon.png">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="title">
+            Registration Form
+        </div>
+        <form action="Main.html">
+            <div class="field">
+                <input type="text" name="name" required>
+                <label>Name</label>
+            </div>
+            <div class="field">
+                <input type="text" name="mobile" required>
+                <label>Mobile number</label>
+            </div>
+            <div class="field">
+                <input type="text" name="email" required>
+                <label>Email Address</label>
+            </div>
+            <div class="field">
+                <input type="password" name="password" required>
+                <label>Password</label>
+            </div>
+            <div class="field">
+                <input type="password" name="confirmPassword" required>
+                <label>Confirm Password</label>
+            </div>
+            <div class="field">
+                <input type="submit" value="Sign up">
+            </div>
+            <div class="login-link">
+                Already have an account? <a href="Login.html">Login now</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        const registrationForm = document.querySelector('form');
+        const nameInput = document.querySelector('input[name="name"]');
+        const mobileInput = document.querySelector('input[name="mobile"]');
+        const emailInput = document.querySelector('input[name="email"]');
+        const passwordInput = document.querySelector('input[name="password"]');
+        const confirmPasswordInput = document.querySelector('input[name="confirmPassword"]');
+
+        registrationForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            if (!isValidName(nameInput.value)) {
+                alert('Please enter a valid name.');
+                return;
+            }
+
+            if (!isValidMobile(mobileInput.value)) {
+                alert('Please enter a valid 10-digit mobile number.');
+                return;
+            }
+
+            if (!isValidEmail(emailInput.value)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (!isValidPassword(passwordInput.value, confirmPasswordInput.value)) {
+                alert('Passwords do not match or are not strong enough.');
+                return;
+            }
+
+            const formData = {
+                name: nameInput.value,
+                mobile: mobileInput.value,
+                email: emailInput.value,
+                password: passwordInput.value
+            };
+
+            localStorage.setItem('formData', JSON.stringify(formData));
+
+            alert('Form submitted successfully');
+        });
+
+        function isValidName(name) {
+            return /^[A-Za-z\s]+$/.test(name) && name.length >= 3;
+        }
+
+        function isValidMobile(mobile) {
+            return /^\d{10}$/.test(mobile);
+        }
+
+        function isValidEmail(email) {
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            return emailPattern.test(email);
+        }
+
+        function isValidPassword(password, confirmPassword) {
+            return password.length >= 8 && password === confirmPassword;
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Web Technologies Project</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="icon" type="image/png" href="icon.png">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="title">
+            Login Form
+        </div>
+        <form action="Sign-Up.html">
+            <div class="field">
+                <input type="text" required>
+                <label>Email Address</label>
+            </div>
+            <div class="field">
+                <input type="password" required>
+                <label>Password</label>
+            </div>
+            <div class="content">
+                <div class="checkbox">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                <div class="pass-link">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+            <div class="field">
+                <input type="submit" value="Login">
+            </div>
+            <div class="signup-link">
+                Not a member? <a href="Sign-Up.html">Sign Up now</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const loginForm = document.querySelector('form');
+        const emailInput = document.querySelector('input[type="text"]');
+        const passwordInput = document.querySelector('input[type="password"]');
+        const rememberMeCheckbox = document.getElementById('remember-me');
+
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const emailValue = emailInput.value;
+            const passwordValue = passwordInput.value;
+
+            const signupFormData = JSON.parse(localStorage.getItem('formData'));
+
+            if (!signupFormData) {
+                alert('You need to sign up first.');
+                return;
+            }
+
+            if (emailValue !== signupFormData.email || passwordValue !== signupFormData.password) {
+                alert('Invalid email or password. Please try again.');
+                return;
+            }
+
+            const loginFormData = {
+                email: emailValue,
+                password: passwordValue,
+                rememberMe: rememberMeCheckbox.checked
+            };
+
+            localStorage.setItem('loginFormData', JSON.stringify(loginFormData));
+
+            alert('Login successful!');
+        });
+
+        function isValidEmail(email) {
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            return emailPattern.test(email);
+        }
+
+    </script>
+
+</body>
+
+</html>
